@@ -4,21 +4,30 @@
 #
 Name     : perl-Data-Password
 Version  : 1.12
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libd/libdata-password-perl/libdata-password-perl_1.12-1.debian.tar.xz
 Summary  : unknown
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
-Requires: perl-Data-Password-license
-Requires: perl-Data-Password-man
+Requires: perl-Data-Password-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 NAME
 Data::Password - Perl extension for assessing password quality.
 SYNOPSIS
 use Data::Password qw(IsBadPassword);
+
+%package dev
+Summary: dev components for the perl-Data-Password package.
+Group: Development
+Provides: perl-Data-Password-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Data-Password package.
+
 
 %package license
 Summary: license components for the perl-Data-Password package.
@@ -28,19 +37,11 @@ Group: Default
 license components for the perl-Data-Password package.
 
 
-%package man
-Summary: man components for the perl-Data-Password package.
-Group: Default
-
-%description man
-man components for the perl-Data-Password package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Data-Password-1.12
-mkdir -p %{_topdir}/BUILD/Data-Password-1.12/deblicense/
+cd ..
+%setup -q -T -D -n Data-Password-1.12 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Data-Password-1.12/deblicense/
 
 %build
@@ -65,12 +66,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Data-Password
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Data-Password/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Data-Password
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Data-Password/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -79,12 +80,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Data/Password.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Data/Password.pm
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Data-Password/deblicense_copyright
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Data::Password.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Data-Password/deblicense_copyright
