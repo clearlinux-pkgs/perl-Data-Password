@@ -4,7 +4,7 @@
 #
 Name     : perl-Data-Password
 Version  : 1.12
-Release  : 4
+Release  : 5
 URL      : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libd/libdata-password-perl/libdata-password-perl_1.12-1.debian.tar.xz
