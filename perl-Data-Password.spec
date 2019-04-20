@@ -4,11 +4,11 @@
 #
 Name     : perl-Data-Password
 Version  : 1.12
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libd/libdata-password-perl/libdata-password-perl_1.12-1.debian.tar.xz
-Summary  : unknown
+Summary  : Data::Password - Perl extension for assessing password quality
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
 Requires: perl-Data-Password-license = %{version}-%{release}
@@ -24,6 +24,7 @@ use Data::Password qw(IsBadPassword);
 Summary: dev components for the perl-Data-Password package.
 Group: Development
 Provides: perl-Data-Password-devel = %{version}-%{release}
+Requires: perl-Data-Password = %{version}-%{release}
 
 %description dev
 dev components for the perl-Data-Password package.
@@ -42,7 +43,7 @@ license components for the perl-Data-Password package.
 cd ..
 %setup -q -T -D -n Data-Password-1.12 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Data-Password-1.12/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Data-Password-1.12/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
